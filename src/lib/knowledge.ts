@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { Marked } from 'marked';
+import { resolveKnowledgePath } from '../../knowledge-path.mjs';
 
 export interface Section { id: string; title: string }
 export interface Card { id: string; q: string; a: string }
@@ -25,8 +26,7 @@ export interface Note {
 }
 
 export function knowledgePath(): string {
-  const configured = import.meta.env.KNOWLEDGE_PATH || process.env.KNOWLEDGE_PATH;
-  return path.resolve(process.cwd(), configured || '../knoldgebase-storage');
+  return resolveKnowledgePath(import.meta.env.KNOWLEDGE_PATH || process.env.KNOWLEDGE_PATH);
 }
 
 const slugify = (s: string) =>

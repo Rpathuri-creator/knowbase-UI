@@ -4,8 +4,9 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { resolveKnowledgePath } from '../knowledge-path.mjs';
 
-const target = path.resolve(process.env.KNOWLEDGE_PATH || '../knoldgebase-storage');
+const target = resolveKnowledgePath();
 const repo = process.env.KNOWLEDGE_REPO || 'https://github.com/Rpathuri-creator/knoldgebase-storage.git';
 const branch = process.env.KNOWLEDGE_BRANCH || 'main';
 
