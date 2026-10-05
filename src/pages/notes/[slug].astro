@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import AskBox from '../../components/AskBox.astro';
+import { loadNotes, noteUrl } from '../../lib/knowledge';
+
+export function getStaticPaths() {
+  return loadNotes().map((n) => ({ params: { slug: n.slug } }));
+}
+
+const { slug } = Astro.params;
+const notes = loadNotes();
+const note = notes.find((n) => n.slug === slug)!;
+const titleOf = (s: string) => notes.find((n) => n.slug === s)?.title ?? s;
+---
+<Base title={note.title} active="note" currentSlug={note.slug} showSidebar>
+  <main class="article-col">
+    <article class="article" data-current={note.slug}>
+      <header class="note-head">
+        <div class="eyebrow">
+          {note.day && <span>Day {note.day}</span>}
+          {note.date && <span>· {note.date}</span>}
+          {note.tags.map((t) => <span class="tag">{t}</span>)}
+        </div>
+        <h1 class="note-title">{note.title}</h1>
+        {note.summary && <p class="note-summary">{note.summary}</p>}
+        {note.status === 'stub' && <span class="stub-badge">Short note · full lesson coming</span>}
+      </header>
+
+      {note.sections.length > 1 && (
+        <nav class="chips" id="chips" aria-label="Sections">
+          {note.sections.map((s) => <a class="chip" href={`#${s.id}`}>{s.title}</a>)}
+        </nav>
+      )}
+
+      <div class="prose note-body" set:html={note.html} />
+
+      {note.cards.length > 0 && (
+        <section class="block">
+          <h3>Flashcards · {note.cards.length}</h3>
+          <div class="card-list">
+            {note.cards.map((c) => (
+              <details><summary>{c.q}</summary><p>{c.a}</p></details>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {note.backlinks.length > 0 && (
+        <section class="block">
+          <h3>Linked from</h3>
+          <div class="backlinks note-body">
+            {note.backlinks.map((b) => <a class="chip wl" data-note={b} href={noteUrl(b)}>{titleOf(b)}</a>)}
+          </div>
+        </section>
+      )}
+
+      <AskBox slug={note.slug} title={note.title} />
+    </article>
+  </main>
+</Base>

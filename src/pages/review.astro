@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Review" active="review">
+  <main class="review">
+    <h1>Daily review</h1>
+    <p class="review-meta" id="review-meta">Loading your cards…</p>
+    <div class="progress"><div id="review-progress"></div></div>
+    <div class="flash" id="flash" hidden>
+      <div class="flash-topic" id="flash-topic"></div>
+      <div class="flash-q" id="flash-q"></div>
+      <div class="flash-a" id="flash-a" hidden></div>
+      <div class="flash-actions single" id="flash-actions"></div>
+    </div>
+  </main>
+</Base>

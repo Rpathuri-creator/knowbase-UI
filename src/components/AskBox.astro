@@ -1,0 +1,13 @@
+---
+interface Props { slug: string; title: string }
+const { slug, title } = Astro.props;
+const mode = import.meta.env.PUBLIC_CHAT_MODE || 'off';
+---
+<section class={`ask${mode === 'off' ? ' offline' : ''}`} id="ask" data-slug={slug} data-mode={mode}>
+  <form class="ask-form" id="ask-form">
+    <input id="ask-input" name="q" autocomplete="off" placeholder={`Ask about ${title.toLowerCase()}`} aria-label="Ask a question about this note" />
+    <button class="ask-send" type="submit">Ask</button>
+  </form>
+  <div class="ask-status" id="ask-status"></div>
+  <div class="ask-answer" id="ask-answer" hidden></div>
+</section>

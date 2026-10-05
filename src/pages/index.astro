@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import { loadNotes, noteUrl } from '../lib/knowledge';
+
+const notes = loadNotes();
+const lessons = notes.filter((n) => n.status === 'lesson');
+const stubs = notes.filter((n) => n.status === 'stub');
+const today = lessons[0];
+const totalCards = notes.reduce((s, n) => s + n.cards.length, 0);
+---
+<Base title="Today" active="home">
+  <main class="home">
+    <div class="home-hero">
+      {today && (
+        <section class="card today">
+          <div class="eyebrow"><span>Day {today.day} · today's topic</span></div>
+          <h1>{today.title}</h1>
+          <p>{today.summary}</p>
+          <a class="btn primary" href={noteUrl(today.slug)}>Start reading →</a>
+        </section>
+      )}
+      <section class="card">
+        <div class="stats">
+          <div class="stat"><b>{lessons.length}</b><span>Lessons learned</span></div>
+          <div class="stat"><b id="due-count">–</b><span>Cards due today</span></div>
+          <div class="stat"><b>{totalCards}</b><span>Flashcards total</span></div>
+          <div class="stat"><b>{stubs.length}</b><span>Topics queued</span></div>
+        </div>
+        <a class="btn" href={`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}review/`} style="margin-top:14px">Review cards</a>
+      </section>
+    </div>
+
+    <h2 class="section-title">Your map</h2>
+    <div class="mini-graph" id="graph" data-mini></div>
+
+    <h2 class="section-title">Lessons</h2>
+    <div class="topic-grid">
+      {lessons.map((n) => (
+        <a class="topic-card" href={noteUrl(n.slug)}>
+          <div class="eyebrow"><span>Day {n.day}</span>{n.tags.slice(0, 2).map((t) => <span class="tag">{t}</span>)}</div>
+          <h3>{n.title}</h3>
+          <p>{n.summary}</p>
+        </a>
+      ))}
+    </div>
+
+    <h2 class="section-title">Coming soon</h2>
+    <div class="topic-grid">
+      {stubs.map((n) => (
+        <a class="topic-card stub" href={noteUrl(n.slug)}>
+          <h3>{n.title}</h3>
+          <p>{n.summary}</p>
+        </a>
+      ))}
+    </div>
+  </main>
+</Base>
