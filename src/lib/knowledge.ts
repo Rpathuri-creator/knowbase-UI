@@ -26,7 +26,7 @@ export interface Note {
 
 export function knowledgePath(): string {
   const configured = import.meta.env.KNOWLEDGE_PATH || process.env.KNOWLEDGE_PATH;
-  return path.resolve(process.cwd(), configured || '../system-design-knowledge');
+  return path.resolve(process.cwd(), configured || '../knoldgebase-storage');
 }
 
 const slugify = (s: string) =>

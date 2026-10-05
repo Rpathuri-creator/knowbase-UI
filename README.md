@@ -15,9 +15,9 @@ npm run dev              # http://localhost:4321
 Expected folder layout (default `KNOWLEDGE_PATH`):
 
 ```
-garden/
+workspace/
   knowbase-ui/                <- this repo
-  system-design-knowledge/    <- notes repo (notes/*.md)
+  knoldgebase-storage/         <- notes repo (notes/*.md)
 ```
 
 Edit a note in the knowledge folder and the browser reloads on its own.

@@ -3,7 +3,7 @@ import path from 'node:path';
 import { loadEnv } from 'vite';
 
 const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
-const knowledge = path.resolve(process.cwd(), env.KNOWLEDGE_PATH || '../system-design-knowledge');
+const knowledge = path.resolve(process.cwd(), env.KNOWLEDGE_PATH || '../knoldgebase-storage');
 
 // Reload the browser when a note changes in the separate knowledge folder.
 const watchKnowledge = () => ({
